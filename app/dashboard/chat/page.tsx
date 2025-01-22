@@ -26,9 +26,9 @@ export default function ChatPage() {
         <MessageList messages={messages} />
         <ChatInput onSend={sendMessage} isLoading={isLoading} />
       </div>
-      <div className="w-1/2 relative mt-[100px]">
+      <div className="w-1/2 relative mt-[50px]">
         <div className="flex flex-col items-center p-10 space-y-6">
-          <h2 className="text-2xl font-bold text-white">Your last meals</h2>
+          <h1 className="text-3xl font-bold text-white">Your last meal's</h1>
           {mealsLoading ? (
             <p className="text-gray-400">Loading meals...</p>
           ) : (
@@ -49,9 +49,7 @@ export default function ChatPage() {
                             <h4 className="text-white font-medium text-lg">
                               {meal.meal_type.toUpperCase()}
                             </h4>
-                            <p className="font-bold text-white text-sm">
-                              {meal.calories} CAL
-                            </p>
+                            <p className="font-bold text-white">Calories: {meal.calories}, Protein: {meal.protein}, Fat: {meal.fat}, Carbs: {meal.carbs}</p>
                             <p className="text-white text-sm">
                               {meal.description}
                             </p>

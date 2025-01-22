@@ -23,7 +23,10 @@ export async function POST(request: Request) {
           {
             "meal_type": "string (breakfast, lunch, or dinner)",
             "description": "string (detailed meal description)",
-            "calories": "number (estimated calorie count)"
+            "calories": "number (estimated calorie count)",
+            "protein": "number (estimated protein count)",
+            "fat": "number (estimated fat count)",
+            "carbs": "number (estimated carbs count)"
           }
           Ensure all fields are present and properly formatted as shown above.`
                 }

@@ -50,11 +50,12 @@ export default function Home() {
         {meals.map((meal, index) => (
           <Card key={index}>
             <CardHeader>
-              <CardTitle>{meal.meal_type}</CardTitle>
+              <CardTitle>{meal.meal_type.toUpperCase()}</CardTitle>
+              <p className="font-bold">Calories: {meal.calories}, Protein: {meal.protein}, Fat: {meal.fat}, Carbs: {meal.carbs}</p>
             </CardHeader>
             <CardContent>
+              
               <p>{meal.description}</p>
-              <p className="mt-2 font-bold">Calories: {meal.calories}</p>
             </CardContent>
           </Card>
         ))}
