@@ -32,5 +32,9 @@ export default async function DashboardLayout({
     redirect('/signin');
   }
 
-  return <>{children}</>;
+  return (
+    <div className="min-h-screen h-full w-full bg-[#343541]">
+      {children}
+    </div>
+  );
 }

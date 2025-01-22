@@ -21,7 +21,7 @@ export function MessageList({ messages }: MessageListProps) {
 
   return (
     <div className="overflow-hidden">
-      <ScrollArea className="h-[calc(100vh-120px)] w-full">
+      <ScrollArea className="h-[calc(100vh-120px)] w-full p-10 ">
         <div className="flex flex-col">
           {messages.map((message) => (
             <ChatMessage key={message.id} message={message} />
