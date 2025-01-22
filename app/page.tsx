@@ -22,7 +22,7 @@ export default function LandingPage() {
               Get personalized meal recommendations, nutrition insights, and cooking inspiration powered by advanced AI.
             </p>
             <div className="flex gap-4 justify-center">
-              <Link href="/chat">
+              <Link href="/dashboard">
                 <Button size="lg">
                   Try Now <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
@@ -79,87 +79,12 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Pricing Section */}
-      <section className="py-20 px-4 md:px-6 bg-muted/50">
-        <div className="container mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">
-            Simple, Transparent Pricing
-          </h2>
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <Card>
-              <CardContent className="pt-6">
-                <h3 className="text-xl font-semibold mb-2">Basic</h3>
-                <p className="text-3xl font-bold mb-4">Free</p>
-                <Separator className="my-4" />
-                <ul className="space-y-2">
-                  <li className="flex items-center">
-                    <Check className="h-4 w-4 mr-2 text-primary" />
-                    Basic meal recommendations
-                  </li>
-                  <li className="flex items-center">
-                    <Check className="h-4 w-4 mr-2 text-primary" />
-                    Limited chat interactions
-                  </li>
-                </ul>
-                <Button className="w-full mt-6">Get Started</Button>
-              </CardContent>
-            </Card>
-            <Card className="border-primary">
-              <CardContent className="pt-6">
-                <h3 className="text-xl font-semibold mb-2">Pro</h3>
-                <p className="text-3xl font-bold mb-4">$9.99/mo</p>
-                <Separator className="my-4" />
-                <ul className="space-y-2">
-                  <li className="flex items-center">
-                    <Check className="h-4 w-4 mr-2 text-primary" />
-                    Advanced meal planning
-                  </li>
-                  <li className="flex items-center">
-                    <Check className="h-4 w-4 mr-2 text-primary" />
-                    Unlimited chat
-                  </li>
-                  <li className="flex items-center">
-                    <Check className="h-4 w-4 mr-2 text-primary" />
-                    Nutrition tracking
-                  </li>
-                </ul>
-                <Button className="w-full mt-6" variant="default">
-                  Choose Pro
-                </Button>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="pt-6">
-                <h3 className="text-xl font-semibold mb-2">Enterprise</h3>
-                <p className="text-3xl font-bold mb-4">Custom</p>
-                <Separator className="my-4" />
-                <ul className="space-y-2">
-                  <li className="flex items-center">
-                    <Check className="h-4 w-4 mr-2 text-primary" />
-                    All Pro features
-                  </li>
-                  <li className="flex items-center">
-                    <Check className="h-4 w-4 mr-2 text-primary" />
-                    Custom integration
-                  </li>
-                  <li className="flex items-center">
-                    <Check className="h-4 w-4 mr-2 text-primary" />
-                    Priority support
-                  </li>
-                </ul>
-                <Button className="w-full mt-6" variant="outline">
-                  Contact Sales
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
+     
 
       {/* Testimonials Section */}
-      <section className="py-20 px-4 md:px-6">
+      <section className="py-20 px-4 md:px-6 bg-cover bg-center" style={{ backgroundImage: 'url("/image/testimonial.jpg")' }}>
         <div className="container mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">
+          <h2 className="text-3xl font-bold text-center mb-12 text-white">
             What Our Users Say
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
@@ -184,6 +109,83 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+
+       {/* Pricing Section */}
+       <section className="py-20 px-4 md:px-6 bg-muted/50">
+       <div className="container mx-auto">
+         <h2 className="text-3xl font-bold text-center mb-12">
+           Simple, Transparent Pricing
+         </h2>
+         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+           <Card>
+             <CardContent className="pt-6">
+               <h3 className="text-xl font-semibold mb-2">Basic</h3>
+               <p className="text-3xl font-bold mb-4">Free</p>
+               <Separator className="my-4" />
+               <ul className="space-y-2">
+                 <li className="flex items-center">
+                   <Check className="h-4 w-4 mr-2 text-primary" />
+                   Basic meal recommendations
+                 </li>
+                 <li className="flex items-center">
+                   <Check className="h-4 w-4 mr-2 text-primary" />
+                   Limited chat interactions
+                 </li>
+               </ul>
+               <Button className="w-full mt-6">Get Started</Button>
+             </CardContent>
+           </Card>
+           <Card className="border-primary">
+             <CardContent className="pt-6">
+               <h3 className="text-xl font-semibold mb-2">Pro</h3>
+               <p className="text-3xl font-bold mb-4">$9.99/mo</p>
+               <Separator className="my-4" />
+               <ul className="space-y-2">
+                 <li className="flex items-center">
+                   <Check className="h-4 w-4 mr-2 text-primary" />
+                   Advanced meal planning
+                 </li>
+                 <li className="flex items-center">
+                   <Check className="h-4 w-4 mr-2 text-primary" />
+                   Unlimited chat
+                 </li>
+                 <li className="flex items-center">
+                   <Check className="h-4 w-4 mr-2 text-primary" />
+                   Nutrition tracking
+                 </li>
+               </ul>
+               <Button className="w-full mt-6" variant="default">
+                 Choose Pro
+               </Button>
+             </CardContent>
+           </Card>
+           <Card>
+             <CardContent className="pt-6">
+               <h3 className="text-xl font-semibold mb-2">Enterprise</h3>
+               <p className="text-3xl font-bold mb-4">Custom</p>
+               <Separator className="my-4" />
+               <ul className="space-y-2">
+                 <li className="flex items-center">
+                   <Check className="h-4 w-4 mr-2 text-primary" />
+                   All Pro features
+                 </li>
+                 <li className="flex items-center">
+                   <Check className="h-4 w-4 mr-2 text-primary" />
+                   Custom integration
+                 </li>
+                 <li className="flex items-center">
+                   <Check className="h-4 w-4 mr-2 text-primary" />
+                   Priority support
+                 </li>
+               </ul>
+               <Button className="w-full mt-6" variant="outline">
+                 Contact Sales
+               </Button>
+             </CardContent>
+           </Card>
+         </div>
+       </div>
+     </section>
 
       {/* CTA Section */}
       <section className="py-20 px-4 md:px-6 bg-primary text-primary-foreground">
