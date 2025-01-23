@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Meal } from '@/types/meal';
+import { supabase } from '@/lib/supabase';
 
-export function useLastMeals(limit: number = 5) {
+export function useLastMeals(limit: number = 10) {
   const [meals, setMeals] = useState<Meal[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -12,13 +13,14 @@ export function useLastMeals(limit: number = 5) {
         setLoading(true);
         setError(null);
 
-        const response = await fetch(`/api/meals?limit=${limit}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch meals');
-        }
+        const { data, error: fetchError } = await supabase
+          .from('meals')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(limit);
 
-        const data = await response.json();
-        setMeals(data);
+        if (fetchError) throw fetchError;
+        setMeals(data || []);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to fetch meals');
       } finally {
@@ -27,6 +29,28 @@ export function useLastMeals(limit: number = 5) {
     }
 
     fetchMeals();
+
+    // Set up real-time subscription
+    const subscription = supabase
+      .channel('meals-channel')
+      .on(
+        'postgres_changes',
+        {
+          event: '*', // Listen to all events (INSERT, UPDATE, DELETE)
+          schema: 'public',
+          table: 'meals',
+        },
+        async (payload) => {
+          // Refetch meals when any change occurs
+          await fetchMeals();
+        }
+      )
+      .subscribe();
+
+    // Cleanup subscription on unmount
+    return () => {
+      subscription.unsubscribe();
+    };
   }, [limit]);
 
   return { meals, loading, error };

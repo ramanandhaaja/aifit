@@ -1,23 +1,35 @@
 // hooks/useChat.ts
 import { useState } from 'react';
-import { Message } from '@/types/chat';
+import { v4 as uuidv4 } from 'uuid';
+import { Message } from '@/types/message';
+import { supabase } from '@/lib/supabase';
 
 export function useChat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const sendMessage = async (content: string) => {
     try {
       setIsLoading(true);
+      setError(null);
       
-      // Add user message
+      const session = await supabase.auth.getSession();
+      const userId = session.data.session?.user?.id;
+      
+      if (!userId) {
+        setError('Please sign in to send messages');
+        return;
+      }
+
       const userMessage: Message = {
-        id: Date.now().toString(),
+        id: uuidv4(),
+        user_id: userId,
         role: 'user',
         content,
-        timestamp: new Date(),
+        created_at: new Date().toISOString(),
       };
-      
+        
       setMessages(prev => [...prev, userMessage]);
 
       // Call API to get AI response
@@ -26,24 +38,28 @@ export function useChat() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ message: content }),
+        body: JSON.stringify({ message: userMessage }),
       });
 
-      if (!response.ok) throw new Error('Failed to send message');
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to send message');
+      }
 
       const data = await response.json();
       
-      // Add AI response
       const aiMessage: Message = {
-        id: (Date.now() + 1).toString(),
+        id: uuidv4(),
+        user_id: userId,
         role: 'assistant',
         content: data.message,
-        timestamp: new Date(),
+        created_at: new Date().toISOString(),
       };
 
       setMessages(prev => [...prev, aiMessage]);
-    } catch (error) {
-      console.error('Error sending message:', error);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+      console.error('Chat error:', err);
     } finally {
       setIsLoading(false);
     }
@@ -52,6 +68,7 @@ export function useChat() {
   return {
     messages,
     isLoading,
+    error,
     sendMessage,
   };
 }

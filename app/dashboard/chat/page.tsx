@@ -5,10 +5,11 @@ import { ChatInput } from "@/components/chat/input";
 import { useChat } from "@/hooks/useChat";
 import { useLastMeals } from "@/hooks/useLastMeals";
 import { Meal } from "@/types/meal";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function ChatPage() {
   const { messages, sendMessage, isLoading } = useChat();
-  const { meals, loading: mealsLoading } = useLastMeals(5);
+  const { meals, loading: mealsLoading } = useLastMeals(10);
 
   // Group meals by date
   const groupedMeals = meals.reduce((groups: { [key: string]: Meal[] }, meal) => {
@@ -32,35 +33,39 @@ export default function ChatPage() {
           {mealsLoading ? (
             <p className="text-gray-400">Loading meals...</p>
           ) : (
-            <div className="w-full max-w-md space-y-8">
-              {Object.entries(groupedMeals).map(([date, dateMeals]) => (
-                <div key={date} className="space-y-4">
-                  <h3 className="text-white font-bold text-xl border-b border-gray-600 pb-2">
-                    {new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(new Date(date))} 
-                  </h3>
-                  <div className="space-y-3">
-                    {dateMeals.map((meal) => (
-                      <div 
-                        key={meal.id} 
-                        className="bg-[#40414f] rounded-lg p-4 shadow-lg"
-                      >
-                        <div className="flex justify-between items-center">
-                          <div>
-                            <h4 className="text-white font-medium text-lg">
-                              {meal.meal_type.toUpperCase()}
-                            </h4>
-                            <p className="font-bold text-white">Calories: {meal.calories}, Protein: {meal.protein}, Fat: {meal.fat}, Carbs: {meal.carbs}</p>
-                            <p className="text-white text-sm">
-                              {meal.description}
-                            </p>
+            <ScrollArea className="w-full h-[calc(100vh-200px)]">
+              <div className="w-full flex flex-col items-center">
+                <div className="w-full max-w-md space-y-8 pr-4">
+                  {Object.entries(groupedMeals).map(([date, dateMeals]) => (
+                    <div key={date} className="space-y-4 animate-fade-in">
+                      <h3 className="text-white font-bold text-xl border-b border-gray-600 pb-2">
+                        {new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(new Date(date))} 
+                      </h3>
+                      <div className="space-y-3">
+                        {dateMeals.map((meal) => (
+                          <div 
+                            key={meal.id} 
+                            className="bg-[#40414f] rounded-lg p-4 shadow-lg transform transition-all duration-300 ease-in-out hover:scale-[1.02] motion-reduce:transform-none"
+                          >
+                            <div className="flex justify-between items-center">
+                              <div>
+                                <h4 className="text-white font-medium text-lg">
+                                  {meal.meal_type.toUpperCase()}
+                                </h4>
+                                <p className="font-bold text-white">Calories: {meal.calories}, Protein: {meal.protein}, Fat: {meal.fat}, Carbs: {meal.carbs}</p>
+                                <p className="text-white text-sm">
+                                  {meal.description}
+                                </p>
+                              </div>
+                            </div>
                           </div>
-                        </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </div>
+            </ScrollArea>
           )}
         </div>
       </div>

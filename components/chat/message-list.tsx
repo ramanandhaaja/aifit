@@ -1,6 +1,6 @@
 // components/chat/message-list.tsx
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Message } from "@/types/chat";
+import { Message } from "@/types/message";
 import { ChatMessage } from "@/components/chat/message";
 import { useEffect, useRef } from "react";
 

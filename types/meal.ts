@@ -1,4 +1,4 @@
-export interface Meal {
+export type Meal = {
     id: number;
     created_at: string;
     meal_type: string;
