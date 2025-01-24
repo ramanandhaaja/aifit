@@ -1,11 +1,14 @@
 // app/dashboard/page.tsx
 
+'use client';
+
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dumbbell, Utensils, HeartPulse, Flame } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/lib/supabase";
 
 export default function Dashboard() {
   // Dummy data
@@ -47,6 +50,15 @@ export default function Dashboard() {
             Open Chat
           </Button>
         </Link>
+        <Button
+          variant="outline"
+          onClick={async () => {
+            await supabase.auth.signOut();
+            window.location.href = '/signin';
+          }}
+        >
+          Logout
+        </Button>
       </header>
 
       {/* Stats Grid */}
