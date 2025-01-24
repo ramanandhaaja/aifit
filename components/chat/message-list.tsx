@@ -20,15 +20,17 @@ export function MessageList({ messages }: MessageListProps) {
   }, [messages]);
 
   return (
-    <div className="overflow-hidden">
-      <ScrollArea className="h-[calc(100vh-120px)] w-full p-10 ">
-        <div className="flex flex-col">
-          {messages.map((message) => (
-            <ChatMessage key={message.id} message={message} />
-          ))}
-          <div ref={messagesEndRef} />
-        </div>
-      </ScrollArea>
+    <div className="relative shadow-lg bg-white border-2 border-indigo-300 rounded-b-lg mb-24 h-[calc(100vh-120px)]">
+      <div className="absolute inset-0 overflow-hidden rounded-b-lg">
+        <ScrollArea className="h-full w-full">
+          <div className="p-6 space-y-6">
+            {messages.map((message) => (
+              <ChatMessage key={message.id} message={message} />
+            ))}
+            <div ref={messagesEndRef} />
+          </div>
+        </ScrollArea>
+      </div>
     </div>
   );
 }

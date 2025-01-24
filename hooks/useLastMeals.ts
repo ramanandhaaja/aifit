@@ -13,15 +13,30 @@ export function useLastMeals(limit: number = 10) {
         setLoading(true);
         setError(null);
 
-        const { data, error: fetchError } = await supabase
-          .from('meals')
-          .select('*')
-          .order('created_at', { ascending: false })
-          .limit(limit);
+        // Get current user session
+        const { data: { user } } = await supabase.auth.getUser();
+        
+        if (!user) {
+          throw new Error('Not authenticated');
+        }
 
-        if (fetchError) throw fetchError;
+        const response = await fetch(`/api/meals?limit=${limit}&userId=${user.id}`, {
+          credentials: 'include',
+          headers: {
+            'Authorization': `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`
+          }
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Failed to fetch meals');
+        }
+
+        const data = await response.json();
+        console.log('Fetched meals:', data);
         setMeals(data || []);
       } catch (err) {
+        console.error('Error fetching meals:', err);
         setError(err instanceof Error ? err.message : 'Failed to fetch meals');
       } finally {
         setLoading(false);
@@ -29,28 +44,6 @@ export function useLastMeals(limit: number = 10) {
     }
 
     fetchMeals();
-
-    // Set up real-time subscription
-    const subscription = supabase
-      .channel('meals-channel')
-      .on(
-        'postgres_changes',
-        {
-          event: '*', // Listen to all events (INSERT, UPDATE, DELETE)
-          schema: 'public',
-          table: 'meals',
-        },
-        async (payload) => {
-          // Refetch meals when any change occurs
-          await fetchMeals();
-        }
-      )
-      .subscribe();
-
-    // Cleanup subscription on unmount
-    return () => {
-      subscription.unsubscribe();
-    };
   }, [limit]);
 
   return { meals, loading, error };

@@ -4,18 +4,40 @@ import { NextResponse } from 'next/server';
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const limit = searchParams.get('limit') || '5';
+    const limit = searchParams.get('limit') || '10';
+    const userId = searchParams.get('userId');
+    
+    // Get the authorization header
+    const authHeader = request.headers.get('authorization');
+    if (!authHeader?.startsWith('Bearer ')) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const token = authHeader.split(' ')[1];
+    
+    // Verify the token
+    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    
+    if (authError || !user || user.id !== userId) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    console.log('Current user ID:', user.id);
 
     const { data, error } = await supabase
       .from('meals')
       .select('*')
+      .eq('user_id', user.id)
       .order('created_at', { ascending: false })
       .limit(parseInt(limit));
+
+    console.log('Query result:', data);
 
     if (error) throw error;
 
     return NextResponse.json(data);
   } catch (error) {
+    console.error('API Error:', error);
     return NextResponse.json(
       { error: 'Failed to fetch meals' },
       { status: 500 }

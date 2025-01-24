@@ -12,6 +12,7 @@
     "@auth/supabase-adapter": "^1.7.4",
     "@prisma/client": "^6.0.1",
     "@radix-ui/react-avatar": "^1.1.2",
+    "@radix-ui/react-progress": "^1.1.1",
     "@radix-ui/react-scroll-area": "^1.2.2",
     "@radix-ui/react-separator": "^1.1.1",
     "@radix-ui/react-slot": "^1.1.1",
@@ -28,6 +29,7 @@
     "openai": "^4.78.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "recharts": "^2.15.0",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7"
   },
