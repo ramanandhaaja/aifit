@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
+import DashboardLayoutClient from './layout-client';
 
 export const dynamic = 'force-dynamic';
 
@@ -10,7 +11,6 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }) {
   const cookieStore = await cookies();
-
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -29,12 +29,8 @@ export default async function DashboardLayout({
   } = await supabase.auth.getSession();
 
   if (!session) {
-    redirect('/signin');
+    redirect('/login');
   }
 
-  return (
-    <div className="min-h-screen h-full w-full bg-[#343541]">
-      {children}
-    </div>
-  );
+  return <DashboardLayoutClient>{children}</DashboardLayoutClient>;
 }
